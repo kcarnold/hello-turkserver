@@ -18,6 +18,11 @@ if Meteor.isClient
     group = TurkServer.group()
     Meteor.subscribe("colors", group)
 
+  Template.hello.prompt = ->
+    switch TurkServer.treatment()
+      when 'wording1' then "What are some colors you like?"
+      when 'wording2' then "List 5 of the best colors."
+
   Template.hello.colors = -> Colors.find()
 
   Template.hello.events =
