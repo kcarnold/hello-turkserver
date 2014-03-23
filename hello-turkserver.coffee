@@ -30,9 +30,31 @@ if Meteor.isClient
       e.preventDefault()
       Colors.insert
         color: tmpl.find("input").value
+    "click button": (e, tmpl) ->
+      e.preventDefault()
+      Meteor.call 'finish'
+
+  Template.exitsurvey.events =
+    "submit form": (e, tmpl) ->
+      e.preventDefault()
+
+      getValue = (name) -> tmpl.find("[name=#{name}]").value
+
+      results =
+        like: getValue('like')
+        comments: getValue('comments')
+
+      tmpl.find("button[type=submit]").disabled = true # Prevent multiple submissions
+
+      TurkServer.submitExitSurvey(results)
+
 
 if Meteor.isServer
   console.log()
 
   Meteor.publish "colors", ->
     return Colors.find()
+
+  Meteor.methods
+    finish: ->
+      TurkServer.finishExperiment()
