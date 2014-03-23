@@ -30,6 +30,7 @@ if Meteor.isClient
       e.preventDefault()
       Colors.insert
         color: tmpl.find("input").value
+      tmpl.find("input").value = ''
     "click button": (e, tmpl) ->
       e.preventDefault()
       Meteor.call 'finish'
